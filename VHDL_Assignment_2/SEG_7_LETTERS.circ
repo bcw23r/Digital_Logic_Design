@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project source="5.0.0" version="1.0">
+  This file is intended to be loaded by Logisim-evolution v5.0.0(https://github.com/logisim-evolution/).
+
+  <lib desc="#Wiring" name="0">
+    <tool name="Splitter">
+      <a name="facing" val="south"/>
+    </tool>
+    <tool name="Pin">
+      <a name="appearance" val="classic"/>
+    </tool>
+  </lib>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Plexers" name="2"/>
+  <lib desc="#Arithmetic" name="3"/>
+  <lib desc="#FPArithmetic" name="4"/>
+  <lib desc="#Memory" name="5"/>
+  <lib desc="#I/O" name="6"/>
+  <lib desc="#TTL" name="7"/>
+  <lib desc="#TCL" name="8"/>
+  <lib desc="#Base" name="9"/>
+  <lib desc="#BFH-Praktika" name="10"/>
+  <lib desc="#Input/Output-Extra" name="11"/>
+  <lib desc="#Soc" name="12"/>
+  <main name="main"/>
+  <options>
+    <a name="gateUndefined" val="ignore"/>
+    <a name="simlimit" val="1000"/>
+    <a name="simrand" val="0"/>
+  </options>
+  <mappings>
+    <tool map="Button2" name="Poke Tool"/>
+    <tool map="Button3" name="Menu Tool"/>
+    <tool map="Ctrl Button1" name="Menu Tool"/>
+  </mappings>
+  <toolbar>
+    <tool name="Poke Tool"/>
+    <tool name="Edit Tool"/>
+    <tool name="Wiring Tool"/>
+    <tool name="Text Tool"/>
+    <tool name="Image"/>
+    <sep/>
+    <tool name="Pin"/>
+    <tool name="Pin">
+      <a name="facing" val="west"/>
+      <a name="type" val="output"/>
+    </tool>
+    <sep/>
+    <tool name="NOT Gate"/>
+    <tool name="AND Gate"/>
+    <tool name="OR Gate"/>
+    <tool name="XOR Gate"/>
+    <tool name="NAND Gate"/>
+    <tool name="NOR Gate"/>
+    <sep/>
+    <tool name="D Flip-Flop"/>
+    <tool name="Register"/>
+  </toolbar>
+  <circuit name="main">
+    <a name="appearance" val="logisim_evolution"/>
+    <a name="circuit" val="main"/>
+    <a name="circuitnamedboxfixedsize" val="true"/>
+    <a name="simulationFrequency" val="1.0"/>
+    <comp lib="0" loc="(430,370)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+    </comp>
+    <comp lib="0" loc="(430,390)" name="Pin">
+      <a name="appearance" val="NewPins"/>
+      <a name="width" val="4"/>
+    </comp>
+    <comp lib="0" loc="(710,370)" name="Splitter">
+      <a name="bit0" val="7"/>
+      <a name="bit1" val="6"/>
+      <a name="bit2" val="5"/>
+      <a name="bit3" val="4"/>
+      <a name="bit4" val="3"/>
+      <a name="bit5" val="2"/>
+      <a name="bit6" val="1"/>
+      <a name="bit7" val="0"/>
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+    </comp>
+    <comp lib="6" loc="(920,330)" name="7-Segment Display"/>
+    <comp loc="(650,370)" name="dis_7seg"/>
+    <wire from="(650,370)" to="(710,370)"/>
+    <wire from="(730,290)" to="(940,290)"/>
+    <wire from="(730,300)" to="(950,300)"/>
+    <wire from="(730,310)" to="(800,310)"/>
+    <wire from="(730,320)" to="(810,320)"/>
+    <wire from="(730,330)" to="(820,330)"/>
+    <wire from="(730,340)" to="(900,340)"/>
+    <wire from="(730,350)" to="(910,350)"/>
+    <wire from="(730,360)" to="(730,440)"/>
+    <wire from="(730,440)" to="(950,440)"/>
+    <wire from="(800,310)" to="(800,410)"/>
+    <wire from="(800,410)" to="(940,410)"/>
+    <wire from="(810,320)" to="(810,420)"/>
+    <wire from="(810,420)" to="(930,420)"/>
+    <wire from="(820,330)" to="(820,430)"/>
+    <wire from="(820,430)" to="(920,430)"/>
+    <wire from="(900,310)" to="(900,340)"/>
+    <wire from="(900,310)" to="(930,310)"/>
+    <wire from="(910,320)" to="(910,350)"/>
+    <wire from="(910,320)" to="(920,320)"/>
+    <wire from="(920,320)" to="(920,330)"/>
+    <wire from="(920,390)" to="(920,430)"/>
+    <wire from="(930,310)" to="(930,330)"/>
+    <wire from="(930,390)" to="(930,420)"/>
+    <wire from="(940,290)" to="(940,330)"/>
+    <wire from="(940,390)" to="(940,410)"/>
+    <wire from="(950,300)" to="(950,330)"/>
+    <wire from="(950,390)" to="(950,440)"/>
+  </circuit>
+  <vhdl appearance="logisim_evolution" name="dis_7seg">LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.std_logic_arith.all;
+USE ieee.std_logic_unsigned.all;
+
+
+--entityx
+ENTITY dis_7seg IS
+	PORT (
+		en   : IN std_logic;
+		data : IN std_logic_vector(3 DOWNTO 0);
+		dis  : OUT std_logic_vector(7 DOWNTO 0)
+	);
+END ENTITY dis_7seg	;
+
+--arcitecture
+ARCHITECTURE bhv OF dis_7seg IS
+
+BEGIN
+	PROCESS(en,data)
+	BEGIN
+		IF en = '0' THEN
+			dis &lt;= "ZZZZZZZZ";
+		ELSE
+			CASE data IS
+				WHEN "0000" =&gt; dis &lt;= "11101110"; -- A
+				WHEN "0001" =&gt; dis &lt;= "00111110"; -- b
+				WHEN "0010" =&gt; dis &lt;= "10011100"; -- C
+				WHEN "0011" =&gt; dis &lt;= "01111010"; -- d
+				WHEN "0100" =&gt; dis &lt;= "10001110"; -- F
+				WHEN "0101" =&gt; dis &lt;= "11110110"; -- g
+
+				WHEN others =&gt; dis &lt;= "00000000";
+			END CASE;
+		END IF;
+	END PROCESS;
+
+END ARCHITECTURE bhv;
+
+</vhdl>
+</project>
